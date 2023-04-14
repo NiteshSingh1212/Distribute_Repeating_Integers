@@ -1,0 +1,29 @@
+class Solution {
+public:
+bool DistributeCan(vector<int>& count,vector<int>& quantity,int ithCustomer){
+    //Base case
+    if(ithCustomer == quantity.size()){
+        return true;
+    }
+    for(int i=0;i<count.size();i++){
+        if(count[i]>= quantity[ithCustomer]){
+            count[i]-=quantity[ithCustomer];
+            if( DistributeCan(count,quantity,ithCustomer+1)){
+                return true;
+            }
+            //BackTracking
+          count[i] +=quantity[ithCustomer];
+        }
+    }return false;
+}
+    bool canDistribute(vector<int>& nums, vector<int>& quantity) {
+        unordered_map<int,int> MapCount;
+        for(auto num:nums)
+        MapCount[num]++;
+        vector<int> count;
+        for(auto it:MapCount)
+        count.push_back(it.second);
+        sort(quantity.rbegin(),quantity.rend());
+        return DistributeCan(count,quantity,0); 
+    }
+};
